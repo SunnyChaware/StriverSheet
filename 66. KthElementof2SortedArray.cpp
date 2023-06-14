@@ -1,33 +1,25 @@
-int ninjaAndLadoos(vector<int> &row1, vector<int> &row2, int m, int n, int k) 
-{     
-    if (m > n) 
-    {
-        return ninjaAndLadoos(row2, row1, n, m, k);
+#include<bits/stdc++.h>
+int ninjaAndLadoos(vector<int> &a, vector<int> &b, int n, int m, int k) {
+    if(m>n){
+        ninjaAndLadoos(b,a,m,n,k);
     }
-  
-    if (m == 0) 
-    {
-        return row2[k - 1];
-    }
-    
-    if (k == 1) 
-    {
-        return min(row1[0], row2[0]);
-    }
-  
-    int i = min(m, k / 2);
-    int j = min(n, k / 2);
-    
-    if (row1[i - 1] > row2[j - 1]) 
-    {
-        vector<int> newRow2;
-        newRow2.assign(row2.begin() + j, row2.end());
-        
-        return ninjaAndLadoos(row1, newRow2, m, n - j, k - j);
-    } 
 
-    vector<int> newRow1;
-    newRow1.assign(row1.begin() + i, row1.end());
-        
-    return ninjaAndLadoos(newRow1, row2, m - i, n, k - i);  
-} 
+    int low = max(0, k-m), high = min(k,n);
+    
+    while(low<=high){
+        int i1 = (low+high)/2;
+        int i2 = k-i1;
+
+        int min1 = (i1==n)?INT_MAX:a[i1];
+        int max1 = (i1==0)?INT_MIN:a[i1-1];
+        int min2 = (i2==m)?INT_MAX:b[i2];
+        int max2 = (i2==0)?INT_MIN:b[i2-1];
+
+        if(max1<=min2 and max2<=min1){
+            return max(max1,max2);
+        }
+        else if(max1>min2)high = i1-1;
+        else low= i1+1;
+    }
+    return 1;
+}
