@@ -34,7 +34,7 @@ string reverseString(string &str){
 			if(ans.size()>0)ans+=' ';
 			int j = i;
 			while(j>=0 and str[j]!=' ')j--;
-			ans.append(str.substr(j+1, i-j));
+			ans+= str.substr(j+1, i-j);
             i = j;
 		}
     }
