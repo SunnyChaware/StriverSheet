@@ -1,0 +1,48 @@
+#include <bits/stdc++.h> 
+/**********************************************************
+
+    Following is the Binary Tree Node structure:
+
+    template <typename T>
+    class BinaryTreeNode {
+        public: 
+        T data;
+        BinaryTreeNode<T> *left;
+        BinaryTreeNode<T> *right;
+
+        BinaryTreeNode(T data) {
+            this->data = data;
+            left = NULL;
+            right = NULL;
+        }
+
+        ~BinaryTreeNode() {
+            if (left)
+                delete left;
+            if (right)
+                delete right;
+        }
+    };
+***********************************************************/
+void f(BinaryTreeNode<int>* root, vector<int> & inorder){
+    if(root==NULL)return;
+
+    f(root->left, inorder);
+    inorder.push_back(root->data);
+    f(root->right, inorder);
+}
+
+bool pairSumBst(BinaryTreeNode<int> *root, int k)
+{
+    vector<int> inorder;
+    f(root, inorder);
+
+    int l = 0, h = inorder.size()-1;
+    while(l<h){
+        int sum = inorder[l] + inorder[h];
+        if(sum==k)return true;
+        if(sum<k)l++;
+        else h--;
+    }
+    return false;
+}
